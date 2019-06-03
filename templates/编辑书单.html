@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="top">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-2"><p class="text-center">logo</p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center">新建书单</p></div>
+            <div class="col-md-4">
+
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">{%if not session['user_name']%}
+
+                <a href="login"><p class="text-center">登录</p></a>
+
+                {% else%}
+                <p class="text-center">{{session['user_name']}}</p>
+                <a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a>
+                <a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a>
+                <a href="#"><p class="text-center">我的关注</p></a>
+
+                {%endif%}
+
+            </div>
+        </div>
+    </div>
+</nav>
+    <table class="table table-hover">
+        <tr class="info">
+            <th>
+                <div class="col-md-8">
+                    <h4>编辑菜单</h4>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <th>
+                <div class="col-md-4"></div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="书单标题" style="width:200px;height:33px">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <form>
+                        <select class="form-control ">
+                            <option>选择分类</option>
+                            <option>校园青春</option>
+                            <option>魔幻小说</option>
+                            <option>都市言情</option>
+                            <option>科幻小说</option>
+                            <option>穿越小说</option>
+                            <slect>
+                    </form>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div align="center">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="书单简介" style="width:550px;height:80px">
+                    </div>
+                    </h5>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <div align="center">
+        <div style="width:550px;height:220px">
+            <div  vertical-align="middle" class="panel panel-primary">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="col-md-4">
+                <h4>书名<span class="glyphicon glyphicon-file" aria-hidden="true"></span>：xxxxx</h4>
+            </div>
+            <div class="col-md-4">
+                <h4>作者<span class="glyphicon glyphicon-user" aria-hidden="true"></span>：xxx</h4>
+            </div>
+            <p>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="书本简介" style="width:500px;height:100px">
+                </div>
+            </p>
+            <h4> 推荐指数
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>:
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            </h4>
+        </div></div>
+
+        <div style="width:550px;height:220px">
+                <div  vertical-align="middle" class="panel panel-primary">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="col-md-4">
+                <h4>书名<span class="glyphicon glyphicon-file" aria-hidden="true"></span>：xxxxx</h4>
+            </div>
+            <div class="col-md-4">
+                <h4>作者<span class="glyphicon glyphicon-user" aria-hidden="true"></span>：xxx</h4>
+            </div>
+            <p>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="书本简介" style="width:500px;height:100px">
+                </div>
+            </p>
+            <h4> 推荐指数
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>:
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            </h4>
+        </div>
+
+        <div style="width:550px;height:220px">
+                <div  vertical-align="middle" class="panel panel-primary">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="col-md-4">
+                <h4>书名<span class="glyphicon glyphicon-file" aria-hidden="true"></span>：xxxxx</h4>
+            </div>
+            <div class="col-md-4">
+                <h4>作者<span class="glyphicon glyphicon-user" aria-hidden="true"></span>：xxx</h4>
+            </div>
+            <p>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="书本简介" style="width:500px;height:100px">
+                </div>
+            </p>
+            <h4> 推荐指数
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>:
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            </h4>
+        </div></div>
+
+        
+    <div align="center">
+        <button type="button" class="btn btn-info" style="height:35px;width:80px">点击添加</button>
+        <p>
+            <div="row">
+                <div class="col-md-6"></div>
+                
+                <div class="col-md-2">
+                        <button type="button" class="btn btn-info" style="height:35px;width:60px;">漂流</button>
+                    </div>
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-warning" style="height:35px;width:60px;">取消</button>
+                </div>
+
+               
+    </p>
+    </div>
+
+</body>

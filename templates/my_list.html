@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <![endif]-->
+    <script>
+                $(function () {
+                        $(".btn-info").click(function () {
+                            $(this).removeClass("btn-info");
+                            $(this).addClass("btn-success");
+                            $(this).html('已关注');
+                        });
+                    });
+
+
+
+
+    </script>
+</head>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="top">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center">新建书单</p></div>
+            <div class="col-md-4">
+
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">{%if not session['user_name']%}
+
+                <a href="login"><p class="text-center">登录</p></a>
+
+                {% else%}
+                <p class="text-center">{{session['user_name']}}</p>
+                <a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a>
+                <a href="#"><p class="text-center">我的书单</p></a>
+                <a href="#"><p class="text-center">我的关注</p></a>
+
+                {%endif%}
+
+            </div>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<br>
+<br>
+<body>
+<div class="container">
+    <div class="col-md-12">
+        <img src="C:\Users\1\Desktop\HTML\BL8)ZU(P[3@R%195V{BB}WN.png" class="Responsive image" alt="Responsive image"
+             width="1800"
+             height="150">
+    </div>
+
+    <div class="col-md-5">
+        <p>
+            <img src="C:\Users\1\Desktop\HTML\-3098a933014b1580.png" alt="Responsive image" style="float:right"
+                 width="120" height="120">
+        </p>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+
+            <div class="col-md-3">书单名</div>
+            <div class="col-md-1">类别</div>
+            <div class="col-md-4"></div>
+            <div class="col-md-1">创建时间</div>
+            <div class="col-md-2">书单数</div>
+            <div class="col-md-1">
+
+
+            </div>
+        </th>
+    </tr>
+    <tr>
+
+    </tr>
+    <!--模态框-->
+    {%for i in book_list%}
+    <tr>
+        <th>
+
+            <a href="?book_list_id={{i['book_list_id']}}">
+                <div class="col-md-3">{{i['book_list_name']}}</div>
+            </a>
+            <div class="col-md-1">{{i['type']}}</div>
+            <div class="col-md-4"></div>
+            <div class="col-md-1">{{i['create_time']}}</div>
+            <div class="col-md-2">{{i['sum_of_book_list']}}</div>
+            <div class="col-md-1"><button class="btn btn-warning" data-toggle="modal" data-target="#myModal">删除</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">是否删除</h4>
+            </div>
+            <div class="modal-body">确定删除吗</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <form action="" method="post">
+                    <input name="user_name" value="{{session['user_name']}}" hidden="True">
+                    <input name="book_list_id" value="{{i['book_list_id']}}" hidden="True">
+                <button type="submit" class="btn btn-primary">提交更改</button>
+                    </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div></div>
+
+            </div>
+        </th>
+    </tr>
+    {%endfor %}
+</table>
+</body>

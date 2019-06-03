@@ -1,0 +1,115 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="top">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-2"><p class="text-center">logo</p></div>
+        <div class="col-md-2"><p class="text-center">所有书单</p></div>
+        <div class="col-md-2"><p class="text-center">新建书单</p></div>
+        <div class="col-md-4">
+
+            <div class="col-md-4">
+                <!-- Single button -->
+                <select class="form-control">
+                    <option>男频</option>
+                    <option>女频</option>
+
+                </select>
+            </div>
+
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">{%if not user_name%}
+
+            <a href="login"><p class="text-center">登录</p></a>
+
+            {% else%}
+            <p class="text-center">{{user_name}}</p>
+            {%endif%}
+        </div>
+    </div>
+</div>
+<div class="categroy">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>分类</th>
+            <th>分类</th>
+            <th>分类</th>
+            <th>分类</th>
+            <th>分类</th>
+            <th>分类</th>
+            <th>分类</th>
+            <th>分类</th>
+
+        </tr>
+        </thead>
+
+    </table>
+</div>
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <form action="" method="post">
+
+            <div class="form-group has-feedback">
+                <label for="username">用户名</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                    <input id="username" name="username" class="form-control" placeholder="请输入用户名" maxlength="20"
+                           type="text">
+                </div>
+
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class=" glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+
+            <div class="form-group has-feedback">
+                <label for="password">密码</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                    <input id="password" name="password" class="form-control" placeholder="请输入密码" maxlength="20"
+                           type="password">
+                </div>
+
+                <span style="color:red;display: none;" class="tips"></span>
+                <span style="display: none;" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <span style="display: none;" class="glyphicon glyphicon-ok form-control-feedback"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input class="form-control btn btn-primary" id="submit" value="立&nbsp;&nbsp;即&nbsp;&nbsp;登&nbsp;&nbsp;录"
+                       type="submit">
+            </div>
+
+            <!--</div>-->
+            <div class="form-group">
+                <input value="重置" id="reset" class="form-control btn btn-danger" type="reset">
+            </div>
+              <div class="form-group">
+               <a href="{{ url_for('regist')}}"><button type="button" class="btn btn-success btn-block">跳转到注册</button></a>
+            </div>
+                      {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="form-group">
+
+                <div class="alert alert-danger" role="alert">你密码错了</div>
+
+
+            {% endif %}
+                {% endwith %}</div>
+
+
+        </form>
+    </div>
+</div>

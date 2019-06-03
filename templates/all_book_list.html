@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .pagination{
+    position:absolute;
+    right:10px;
+    width:500px;}
+
+</style>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <script>
+                $(function () {
+                        $(".btn-info").click(function () {
+                            $(this).removeClass("btn-info");
+                            $(this).addClass("btn-success");
+                            $(this).html('已关注');
+                        });
+                    });
+
+
+    </script>
+</head>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="top">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center">新建书单</p></div>
+            <div class="col-md-4">
+
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">{%if not session['user_name']%}
+
+                <a href="login"><p class="text-center">登录</p></a>
+
+                {% else%}
+                <p class="text-center">{{session['user_name']}}</p>
+                <a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a>
+                <a href="#"><p class="text-center">我的书单</p></a>
+                <a href="#"><p class="text-center">我的关注</p></a>
+
+                {%endif%}
+
+            </div>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<br>
+<br>
+<div class="categroy">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>玄幻奇幻</th>
+            <th>仙侠武侠</th>
+            <th>现代都市</th>
+            <th>历史军事</th>
+            <th>游戏竞技</th>
+            <th>科幻灵异</th>
+            <th>同人短篇</th>
+            <th>古代言情</th>
+            <th>现代言情</th>
+
+        </tr>
+        </thead>
+
+    </table>
+</div>
+<body>
+<table class="table table-hover">
+    <tr class="info">
+        <th>
+            <div class="row">
+                <div class="col-md-1"> 喜欢数 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span></div>
+                <div class="col-md-1">分类<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
+                <div class="col-md-1">书单名称<span class="glyphicon glyphicon-book" aria-hidden="true"></span></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-1">用户ID<span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+                <div class="col-md-2">书本数量<span class="glyphicon glyphicon-tasks" aria-hidden="true"></span></div>
+                <div class="col-md-1">关注<span class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
+        </th>
+    </tr>
+</table>
+
+
+<table class="table table-hover">
+    {%for i in book_list%}
+    <tr>
+        <th>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> 喜欢
+                </button>
+            </div>
+            <div class="col-md-1">{{i['type']}}</div>
+            <div class="col-md-4">{{i['book_list_name']}}</div>
+            <div class="col-md-1">{{i['created_userid']}}</div>
+            <div class="col-md-2">{{i['sum_of_booklist']}}</div>
+            <div class="col-md-1">
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">新增</h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="txt_departmentname">部门名称</label>
+                                    <input type="text" name="txt_departmentname" class="form-control"
+                                           id="txt_departmentname" placeholder="部门名称">
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt_parentdepartment">上级部门</label>
+                                    <input type="text" name="txt_parentdepartment" class="form-control"
+                                           id="txt_parentdepartment" placeholder="上级部门">
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt_departmentlevel">部门级别</label>
+                                    <input type="text" name="txt_departmentlevel" class="form-control"
+                                           id="txt_departmentlevel" placeholder="部门级别">
+                                </div>
+                                <div class="form-group">
+                                    <label for="txt_statu">描述</label>
+                                    <input type="text" name="txt_statu" class="form-control" id="txt_statu"
+                                           placeholder="状态">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                                        class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭
+                                </button>
+                                <button type="button" id="btn_submit" class="btn btn-primary" data-dismiss="modal"><span
+                                        class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                     $("#confirm").click(function () {
+      $("#myModalLabel").text("新增");
+   $('#myModal');
+ });
+
+                </script>
+                {%if session['user_name'] %}
+                {%if i['book_list_id'] in user_focus_list%}
+                <button type="button" id="confirm" class="btn btn-success">已关注</button>
+
+                {%else%}
+                <button type="button" class="btn btn-info" id="update_id{{i['book_list_id']}}">关注</button>
+                <script>
+             $("#update_id{{i['book_list_id']}}").click(
+    function  user_update{{i['book_list_id']}}() {
+        data = {
+            user_id:$("#user_id{{i['book_list_id']}}").val(),
+            book_list_id:$("#book_list_id_up{{i['book_list_id']}}").val(),
+        }
+        data = JSON.stringify(data);
+        $.post("http://127.0.0.1:5000/"+'update_focus/',data,function (res) {
+            if (res.result){
+                alert('update success!!!')
+            }
+            else {
+                alert('关注成功')
+            }
+
+        })
+    }
+)
+
+
+
+
+
+                </script>
+                <input id="book_list_id_up{{i['book_list_id']}}" type="text" value="{{i['book_list_id']}}"
+                       hidden="Ture">
+                <input id="user_id{{i['book_list_id']}}" type="text" value="{{i['created_userid']}}" hidden="ture">
+                {%endif%}
+                {%else%}
+                <a type="button" class="btn btn-info" href="{{url_for('login')}}">请先登录再关注吧</a>
+                {%endif%}
+            </div>
+        </th>
+    </tr>
+    {%endfor%}
+
+</table>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li>
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {%for i in total_page%}
+        {%if i==now_page%}
+        <li class="active" id="{{now_page}}"><a href="all_book_list?page={{i}}">{{i}}</a></li>
+        {%else%}
+        <li class=""><a href="all_book_list?page={{i}}">{{i}}</a></li>
+        {%endif%}
+        {%endfor%}
+        <li>
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>

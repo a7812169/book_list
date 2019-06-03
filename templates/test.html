@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>下拉吸顶导航栏</title>
+		<style type="text/css">
+			html,body{
+				margin: 0;
+				padding: 0;
+			}
+			.main{
+				width: 100%;
+			}
+			.banner{
+				width: 100%;
+				height: 600px;
+				background: url(img/testimonials_bg.jpg);
+			}
+			.bgh1 {
+				color: #FFFFFF;
+				padding: 150px 50px;
+				font-size: 3em;
+				margin: 0px;
+			}
+			.content{
+				width: 100%;
+				text-align: center;
+				background: #fbfcfc;
+				min-height: 1000px;
+			}
+			header{
+				width: 100%;
+				height: 100px;
+				position: absolute;
+				border-bottom: 0.5px solid #999999;
+			}
+			header nav{
+				width: 100%;
+			}
+			nav ul{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				width: 50%;
+				margin-left: 200px;
+			}
+			nav ul>li{
+				float: left;
+				color: #FFFFFF;
+				height: 100px;
+				line-height: 100px;
+				vertical-align: middle;
+				margin-right: 50px;
+				font-size: 20px;
+
+			}
+			nav.sticky{
+				position: fixed;
+				background: #FFFFFF;
+				visibility: hidden;
+				box-shadow: 0 0 10px 1px #000000;
+			}
+			nav.sticky ul>li{
+				color: #000000;
+				height: 60px;
+				line-height: 60px;
+				vertical-align: middle;
+				font-size: 16px;
+
+			}
+			nav.offset{
+				transform: translate(0,-100%);
+				transition: all 0.5s ease-in-out;
+			}
+			nav.scrolling{
+				visibility: visible;
+				transform: translate(0,0);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			<header>
+				<nav class="navigation">
+					<ul>
+						<li>HOME</li>
+						<li>ABOUT</li>
+						<li>TEAM</li>
+						<li>SERVICE</li>
+						<li>CONTACT</li>
+					</ul>
+				</nav>
+			</header>
+			<div class="banner">
+				<h1 class="bgh1"> It's not just about ideas.It's about making ideas happen</h1>
+			</div>
+			<div class="content">
+				<h1>HELLO</h1><h1>HELLO</h1><h1>HELLO</h1><h1>HELLO</h1><h1>HELLO</h1>
+				<h1>HELLO</h1><h1>HELLO</h1><h1>HELLO</h1><h1>HELLO</h1><h1>HELLO</h1>
+			</div>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(window).scroll(function() {
+
+				if($(window).scrollTop() > 190) {
+					$('.navigation').addClass("sticky");
+				} else {
+					$('.navigation').removeClass("sticky");
+				}
+
+				if($(window).scrollTop() > 200) {
+					$('.navigation').addClass("offset");
+				} else {
+					$('.navigation').removeClass("offset");
+				}
+
+				if($(window).scrollTop() > 500) {
+					$('.navigation').addClass("scrolling");
+				} else {
+					$('.navigation').removeClass("scrolling");
+				}
+
+			});
+		</script>
+	</body>
+</html>
