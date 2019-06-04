@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask
 import json
 from flask import request, flash, url_for, redirect
@@ -89,7 +90,7 @@ def index():
     # 精品书单
     your_like_list = tool.get_list("you_like", user_id=None)
     comment_list = tool.get_user_comment()
-    # comment_list_by_book=tool.get_comment_by_book_id()
+	# comment_list_by_book=tool.get_comment_by_book_id()
     return render_template('index.html', new_list=new_list, elite_list=elite_list, your_like_list=your_like_list,
                            comment_list=comment_list,
                            user_name=user_name)
@@ -224,6 +225,5 @@ def user_control():
             return redirect(url_for('user_control'))
     return render_template('/user_control.html',user_information=user_information)
 if __name__ == '__main__':
-
-
-    app.run()
+    app.config['JSON_AS_ASCII'] = False
+    app.run(host='0.0.0.0')

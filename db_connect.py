@@ -2,7 +2,7 @@ from pymysql import connect
 class OpenDB(object):
     def __init__(self):
         # 初始化
-        self.conn = connect("120.79.227.7", "root", "7812169", "book_list")
+        self.conn = connect("120.79.227.7", "root", "7812169", "book_list",charset='utf8')
         self.cs = self.conn.cursor()
 
     def __enter__(self):
