@@ -162,7 +162,7 @@ $(function () { $('.tooltip-show').tooltip('show');});
                     <span class="badge"><a href="#" data-toggle="tooltip" title="请先登录再点赞">❤</a></span>
 
                     <span class="badge">{{i[3]}}</span>
-                    {{i[0]}}
+                    <a href="{{url_for('book_list_deatil')}}?book_list_id={{i[2]}}">{{i[0]}}</a>
                     {%endif%}
                 </li>
 
@@ -197,7 +197,7 @@ $(function () { $('.tooltip-show').tooltip('show');});
                 <li class="list-group-item">
                     <span class="badge"><a class="red" href="?book_list_id={{i['ssid']}}">❤</a></span>
                     <span class="badge">{{i['like_number']}}</span>
-                    {{i['book_list_name']}}
+                    <a href="{{url_for('book_list_deatil')}}?book_list_id={{i['ssid']}}">{{i['book_list_name']}}</a>
                 </li>
                 {%endfor%}
                 {%else%}

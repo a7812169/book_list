@@ -250,10 +250,10 @@ def insert_new_book():
 
 @app.route('/book_list_deatil', methods=['GET', 'POST'])
 def book_list_deatil():
-    user_name=session['user_name']
+    user_name=session.get('user_name')
     book_list_id=request.args.get('book_list_id')
     book_list_details=tool.get_book_list_detail_information_by_book_list_id(book_list_id)
-    return render_template('book_list_deatil.html',book_list_details=book_list_details)
+    return render_template('book_list_deatil.html',book_list_details=book_list_details,user_name=user_name)
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
     app.run()
