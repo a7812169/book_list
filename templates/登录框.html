@@ -1,61 +1,80 @@
 ﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<div class="top">
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-md-2"><p class="text-center">logo</p></div>
-        <div class="col-md-2"><p class="text-center">所有书单</p></div>
-        <div class="col-md-2"><p class="text-center">新建书单</p></div>
-        <div class="col-md-4">
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="top">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-1"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('insert_new_book')}}">新建书单</a></p></div>
+            <div class="col-md-3">
 
-            <div class="col-md-4">
-                <!-- Single button -->
-                <select class="form-control">
-                    <option>男频</option>
-                    <option>女频</option>
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
 
-                </select>
-            </div>
+                    </select>
+                </div>
 
-            <div class="col-md-8">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
         <button class="btn btn-default" type="button">Go!</button>
       </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2">{%if not user_name%}
+            {%if not session['user_name']%}
+            <div class="col-md-1">
 
-            <a href="login"><p class="text-center">登录</p></a>
-
+                <a href="login"><p class="text-center">登录</p></a>
+            </div>
             {% else%}
-            <p class="text-center">{{user_name}}</p>
-            {%endif%}
+            <div class="col-md-1">
+                <p class="text-center">{{session['user_name']}}</p>
+                </div>
+                <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
+                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
+
+
+                {%endif%}
         </div>
+        <div class="row">
+                <div class="categroy">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><a href="{{url_for('category')}}?book_type=1">玄幻奇幻</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=2">仙侠武侠</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=3">现代都市</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=4">历史军事</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=5">游戏竞技</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=6">科幻灵异</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=7">同人短篇</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=8">古代言情</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=9">现代言情</a></th>
+
+                        </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
     </div>
-</div>
-<div class="categroy">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>分类</th>
-            <th>分类</th>
-            <th>分类</th>
-            <th>分类</th>
-            <th>分类</th>
-            <th>分类</th>
-            <th>分类</th>
-            <th>分类</th>
-
-        </tr>
-        </thead>
-
-    </table>
-</div>
+</nav>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
         <form action="" method="post">

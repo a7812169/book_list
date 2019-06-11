@@ -1,24 +1,27 @@
-#coding=utf-8
+# coding=utf-8
 from db_connect import OpenDB
-
 
 
 # 	5	48	823	业务因此一切能力更多质量.	53	6		823	最初的爱情 最后的仪式	2019-04-03 16:24:04	[英]伊恩·麦克尤恩	全书由八个短篇组成，分别从八个位于童年、青春期和青年等不同阶段的男性视角出发，以意识和潜意识交接地带的经验为揭示对象，有时荒唐，有时伤感，有时温柔，有时骇人... 	6	0	22.00元	2010-2			48	江刚	GB81RZEB3372752945111
 def get_user_comment():
     with OpenDB()as con:
         # sql = from comment,book_imformation B,user_information U where comment.user_id=U.ssid and comment.book_id=B.ssid"
-        sql = "select * from comment,book_imformation B,user_information U,book_list where comment.user_id=U.ssid and comment.book_id=B.ssid and book_list.ssid=comment.book_list"
+        sql = "select * from comment,book_imformation B,user_information U,book_list where comment.user_id=U.ssid and comment.book_id=B.ssid and book_list.ssid=comment.book_list order by time desc limit 50"
         con.execute(sql)
         res = con.fetchall()
         comment_list = [i for i in res]
         return comment_list
+
+
 def get_comment_by_book_id(book_id):
     with OpenDB()as con:
-        sql="SELECT * FROM book_list.comment where book_id={} LIMIT 0, 1000".format(book_id)
+        sql = "SELECT * FROM book_list.comment where book_id={} LIMIT 0, 1000".format(book_id)
         con.execute(sql)
         res = con.fetchall()
         comment_list = [i for i in res]
         return comment_list
+
+
 def get_user_id_by_name(user_name):
     with OpenDB()as con:
         sql = "select ssid from user_information where user='{}'".format(user_name)
@@ -50,7 +53,7 @@ def get_user_book_list_by_user_name(user_name):
                              create_time=i[2],
                              like_number=i[3],
                              unlike_number=i[4],
-                             type=i[5],sum_of_book_list=i[6])
+                             type=i[5], sum_of_book_list=i[6])
             book_list_list.append(book_dict)
         return book_list_list
 
@@ -58,7 +61,7 @@ def get_user_book_list_by_user_name(user_name):
 def get_list(type, user_id=None):
     if type == "new":
         with OpenDB() as con:
-            sql = 'select book_list_name,type,ssid,like_number from book_list order by create_time limit 0,10'
+            sql = 'select book_list_name,type,ssid,like_number from book_list order by create_time desc limit 0,10 '
             con.execute(sql)
             res = con.fetchall()
             return res
@@ -109,7 +112,7 @@ def get_you_like(user_id):
 
 def get_book_infomation_by_type(type=None):
     with OpenDB() as con:
-        if not type :
+        if not type:
             sql = "select * from book_imformation "
 
         else:
@@ -145,7 +148,7 @@ def delete_book_list_by_book_list_id(book_list_id):
     with OpenDB()as con:
         sql = """DELETE FROM `book_list`.`user_book_list` WHERE (`book_list_id` = '{}')""".format(book_list_id)
         con.execute(sql)
-        sql="""DELETE FROM `book_list`.`book_list` WHERE (`ssid` = '{}')""".format(book_list_id)
+        sql = """DELETE FROM `book_list`.`book_list` WHERE (`ssid` = '{}')""".format(book_list_id)
         con.execute(sql)
     return True
 
@@ -186,6 +189,27 @@ def get_book_list_information_by_book_list_name(book_list_name):
 # )
 #             book_list_information.append([book_dict])
 #     return book_list_information,
+def get_book_list_detail_information_by_book_list_id(book_list_id):
+    with OpenDB() as con:
+        sql="SELECT * FROM book_list.comment,book_imformation,book_list B where book_list={} and book_imformation.ssid=comment.book_id and B.ssid=book_list".format(book_list_id)
+        con.execute(sql)
+        res=con.fetchall()
+        book_list = []
+        for i in res:
+            book_dict = dict(
+                book_id=i[2],
+                book_name=i[8],
+                comment=i[3],
+                star_num=i[5],
+                author=i[10],
+                intro=i[11],
+                book_list_intro=i[-1],
+                like_number=i[-9],
+                unlike_number=i[-8],
+                book_list_name=i[-6])
+            book_list.append(book_dict)
+        print(book_list)
+        return book_list
 def get_all_book_list_infomation():
     with OpenDB() as con:
         sql = "select * from book_list l ,user_book_list U,user_information where l.ssid=U.book_list_id and user_information.ssid=U.user_id"
@@ -224,39 +248,102 @@ def page():
     total_page = int(len(total_information) / 10)
     return total_page
 
-def update_like_number_by_user_id(user_id,book_list_id):
-    with OpenDB() as con:
 
+def update_like_number_by_user_id(user_id, book_list_id):
+    with OpenDB() as con:
         sql = """UPDATE `book_list`.`book_list` SET like_number=like_number+1 WHERE (`ssid` = '{}');
 """.format(book_list_id)
-        print(sql)
         con.execute(sql)
-        sql="""INSERT INTO `book_list`.`user_like_book_record` (`user_id`, `book_list_id`, `like_number`) VALUES ('{}', '{}', '1');
+        sql = """INSERT INTO `book_list`.`user_like_book_record` (`user_id`, `book_list_id`, `like_number`) VALUES ('{}', '{}', '1');
 
-""".format(user_id,book_list_id)
+""".format(user_id, book_list_id)
 
         con.execute(sql)
+
+
 def get_user_information(user_id=None):
     if not user_id:
         with OpenDB() as con:
-            sql="""	SELECT * FROM book_list.user_information"""
+            sql = """	SELECT * FROM book_list.user_information"""
             con.execute(sql)
-            res=con.fetchall()
+            res = con.fetchall()
             return res
-def insert_new_user(user_name,password):
+
+
+def insert_new_user(user_name, password):
     with OpenDB() as con:
-        sql="""INSERT INTO `book_list`.`user_information` (`user`, `password`) VALUES ('{}', '{}')
-""".format(user_name,password)
+        sql = """INSERT INTO `book_list`.`user_information` (`user`, `password`) VALUES ('{}', '{}')
+""".format(user_name, password)
         con.execute(sql)
         return True
+
+
 def delete_user_information_by_user_id(user_id):
     with OpenDB() as con:
-        sql="""DELETE FROM `book_list`.`user_information` WHERE (`ssid` = '{}')
+        sql = """DELETE FROM `book_list`.`user_information` WHERE (`ssid` = '{}')
 """.format(user_id)
         con.execute(sql)
         return True
-def update_user_password_by_user_id(user_id,passowrd):
+
+
+def update_user_password_by_user_id(user_id, passowrd):
     with OpenDB() as con:
-        sql="""UPDATE `book_list`.`user_information` SET `password` = '{}' WHERE (`ssid` = '{}')""".format(passowrd,user_id)
+        sql = """UPDATE `book_list`.`user_information` SET `password` = '{}' WHERE (`ssid` = '{}')""".format(passowrd,
+                                                                                                             user_id)
         con.execute(sql)
+        return True
+def search_book_name(book_name):
+    with OpenDB() as con:
+        print(book_name)
+        if book_name=="":
+            return None
+        sql="select book_name,author from book_imformation where book_name like '%{}%'".format(book_name)
+        con.execute(sql)
+        res=con.fetchall()
+        k=[]
+        for i in res:
+            book_name=i[0]
+            author=i[1]
+            k.append({"book_name":book_name,"author":author})
+        return k
+def get_book_information_by_book_name(book_name):
+    with OpenDB() as con:
+
+        sql = "select * from book_imformation where book_name='{}'".format(book_name)
+        print(sql)
+        con.execute(sql)
+        res = con.fetchone()
+        print(res)
+        book_list = []
+
+        book_dict = dict(book_id=res[0],
+                         book_name=res[1],
+                         update_time=res[2],
+                         author=res[3],
+                         intro=res[4],
+                         like_number=res[9],
+                         unlike_number=res[10])
+        book_list.append(book_dict)
+        print(book_list)
+        return book_list
+def insert_new_book_list(book_title_name,user_name,book_intro,book,comment):
+    with OpenDB() as con:
+        sql="select * from book_list where book_list_name='{}'".format(book_title_name)
+        con.execute(sql)
+        if len(con.fetchall())<1:
+            sql="INSERT INTO `book_list`.`book_list` (`book_list_name`,`book_list_intro`) VALUES ('{}','{}')".format(book_title_name,book_intro)
+            con.execute(sql)
+        sql="select ssid from book_list where book_list_name ='{}'".format(book_title_name)
+        con.execute(sql)
+        user_id=get_user_id_by_name(user_name)
+        book_list_id=con.fetchone()[0]
+        book_id=get_book_information_by_book_name(book)[0]['book_id']
+        sql="INSERT INTO `book_list`.`comment` (`user_id`, `book_id`, `comment`, `book_list`, `star_num`) VALUES ('{}', '{}', '{}', '{}', '{}')"\
+            .format(user_id,book_id,comment,book_list_id,5)
+        con.execute(sql)
+        sql="select * from user_book_list where user_id ='{}'and book_list_id='{}'".format(user_id,book_list_id)
+        con.execute(sql)
+        if len(con.fetchall())<1:
+            sql="INSERT INTO `book_list`.`user_book_list` (`user_id`, `book_list_id`, `type`) VALUES ('{}', '{}', '{}')".format(user_id,book_list_id,1)
+            con.execute(sql)
         return True

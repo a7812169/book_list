@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <!--输入框的-->
+    <style>
+.autocomplete{
+border: 1px solid #9ACCFB;
+background-color: white;
+text-align: left;
+}
+.autocomplete li{
+list-style-type: none;
+}
+.clickable {
+cursor: default;
+}
+.highlight {
+background-color: #9ACCFB;
+}
+
+
+
+
+
+    </style>
+    <script>         function searchWord(obj){
+            $("ul").empty()
+			var word = $(obj).val();
+			var kk =$(obj).attr("id");
+			var kk =$(obj).attr("id");
+			var content = "";
+			$.post(
+				"",
+				{"word":word},
+				function(data){
+
+					$("ul").empty()
+					for(var i=0;i<data['book_list'].length;i++){
+		        			$("ul").append("<li class='list-group-item' onclick='chose(this)' id="+i+" table= "+kk+" author=au"+kk+">"+data['book_list'][i]['book_name']+"|"+data['book_list'][i]['author']+"</li>")}},
+				'json')}
+
+
+
+
+
+    </script>
+    <!---->
+    <script>
+function chose(obj,kk,gg){
+var word = $(obj).text();
+var arr=new Array();
+arr=word.split('|');
+var book_name=arr[0];
+var kk =$(obj).attr("table");
+var gg =$(obj).attr("author");
+
+var author=arr[1]
+$("#"+kk).val(book_name);
+$("#"+gg).val(author);
+
+}
+</script>
+    <script>
+   function addlist(obj,kk){
+        $("#book-con").append('<div style="width:550px;height:260px"><div vertical-align="middle" class="panel panel-primary"><button type="button"' + 'onClick = close(8)' + ' class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="row"><div class="col-md-2"><h4>书名:</h4> </div> <div class="col-md-2"><div class="form-group"><input type="value" class="form-control" id="book"+kk+"\"" placeholder="书名" style="width:120px;height:40px"></div></div><div class="col-md-1"></div><div class="col-md-2"><h4>作者:</h4></div><div class="col-md-2"><div class="form-group"><input type="value" class="form-control" id="exampleInputPassword1" placeholder="作者" style="width:120px;height:40px"> </div></div></div><div class="form-group"><input type="value" class="form-control" id="exampleInputPassword1" placeholder="书籍评价" style="width:500px;height:120px"></div><div class="row"><div class="col-md-12"><h4> 推荐指数:    <span >&#9733;</span><span >&#9733;</span><span >&#9733;</span><span >&#9733;</span><span >&#9733;</span></h4></div> </div></div></div>')
+        $("span").hover(function(){
+            $(this).addClass('hs');
+            $(this).prevAll().addClass('hs');
+        },function(){
+            $(this).removeClass('hs');
+            $(this).prevAll().removeClass('hs');
+        })
+        $("span").click(function () {
+            $(this).addClass('cs');
+            $(this).prevAll().addClass('cs');
+            $(this).nextAll().removeClass('cs');
+        })
+
+    }
+    function close(e){
+        
+    }
+    function shanchu(){
+        $("#book-one").remove();
+    }
+    $(function () {
+        $("span").hover(function(){
+            $(this).addClass('hs');
+            $(this).prevAll().addClass('hs');
+        },function(){
+            $(this).removeClass('hs');
+            $(this).prevAll().removeClass('hs');
+        })
+
+        $("span").click(function () {
+            $(this).addClass('cs');
+            $(this).prevAll().addClass('cs');
+            $(this).nextAll().removeClass('cs');
+        })
+    })
+
+
+
+
+
+
+
+    </script>
+    <style>
+.hs,.cs{color:#f00;}
+
+
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="top">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-1"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center">新建书单</p></div>
+            <div class="col-md-3">
+
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                    </div>
+                </div>
+            </div>
+            {%if not session['user_name']%}
+            <div class="col-md-1">
+
+                <a href="login"><p class="text-center">登录</p></a>
+            </div>
+            {% else%}
+            <div class="col-md-1">
+                <p class="text-center">{{session['user_name']}}</p>
+            </div>
+            <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a>
+            </div>
+            <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+            <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
+
+
+            {%endif%}
+        </div>
+        <div class="row">
+            <div class="categroy">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th><a href="{{url_for('category')}}?book_type=1">玄幻奇幻</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=2">仙侠武侠</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=3">现代都市</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=4">历史军事</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=5">游戏竞技</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=6">科幻灵异</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=7">同人短篇</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=8">古代言情</a></th>
+                        <th><a href="{{url_for('category')}}?book_type=9">现代言情</a></th>
+
+                    </tr>
+                    </thead>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<form action="" method="post">
+<div class="col-md-8" style="word-break:keep-all">
+    <h4>新建书单</h4>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="book_list_title" id="exampleInputPassword1" placeholder="书单标题"
+                           style="width:200px;height:33px">
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                    <select class="form-control ">
+                        <option>选择分类</option>
+                        <option>男频</option>
+                        <option>女频</option>
+
+                        <slect>
+    </tr>
+    <tr>
+        <th>
+            <div align="center">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="book_list_intro"  placeholder="书单简介"
+                           style="width:550px;height:80px">
+                </div>
+                </h5>
+            </div>
+        </th>
+    </tr>
+</table>
+
+<div class="total">
+    <div class="col-md-4" align="left">
+        <ul class="list-group">
+            <li class="list-group-item">输入提示框</li>
+        </ul>
+    </div>
+    <div class="col-md-8" id="book-con">
+        <div style="width:550px;height:260px">
+            <div vertical-align="middle" class="panel panel-primary">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>书名:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="book1" id="book1" placeholder="书名"
+                                   onkeyup="searchWord(this)" style="width:120px;height:40px">
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <h4>作者:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="author1" id="aubook1" placeholder="作者"
+                                   style="width:120px;height:40px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="comment1" id="exampleInputPassword1" placeholder="书本简介"
+                           style="width:500px;height:120px">
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><h4> 推荐指数:
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span></h4></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:550px;height:260px">
+            <div vertical-align="middle" class="panel panel-primary">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>书名:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control"name="book2" id="book2" placeholder="书名"
+                                   onkeyup="searchWord(this)" style="width:120px;height:40px">
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <h4>作者:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="author2" id="aubook2" placeholder="作者"
+                                   style="width:120px;height:40px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="comment2" id="exampleInputPassword1" placeholder="书本简介"
+                           style="width:500px;height:120px">
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><h4> 推荐指数:
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span></h4></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="width:550px;height:260px">
+            <div vertical-align="middle" class="panel panel-primary">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>书名:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="book3" id="book3" placeholder="书名"
+                                   onkeyup="searchWord(this)" style="width:120px;height:40px">
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <h4>作者:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="author3" id="aubook3" placeholder="作者"
+                                   style="width:120px;height:40px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="comment3" id="exampleInputPassword1" placeholder="书本简介"
+                           style="width:500px;height:120px">
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><h4> 推荐指数:
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span></h4></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div align="center">
+    <button type="button" class="btn btn-info" style="height:35px;width:80px" onclick="addlist(this,k)">点击添加</button>
+    <p>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-1">
+            {%if session['user_name']%}
+            <button type="submit" class="btn btn-info" style="height:35px;width:60px;">漂流</button>
+            {%else%}
+            <a href="{{url_for('login')}}"><button type="button" class="btn btn-info" style="height:35px">请先登录</button></a>
+            {%endif%}
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-warning" style="height:35px;width:60px;">取消</button>
+        </div>
+    </div>
+    </p>
+</div>
+</form>
+</body>

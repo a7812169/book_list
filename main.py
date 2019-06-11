@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from flask import Flask
 import json
-from flask import request, flash, url_for, redirect
+from flask import request, flash, url_for, redirect,jsonify
 from flask import render_template, session
 import tool
 from db_connect import OpenDB
@@ -37,6 +37,8 @@ def login():
                 return redirect(url_for('index'))
     else:
         return render_template('登录框.html')
+
+
 # 注册
 @app.route('/regist', methods=['POST', 'GET'])
 def regist():
@@ -73,10 +75,8 @@ def index():
     user_name = session.get('user_name')
     if request.args.get('type'):
         book_list_id = request.args.get('book_list_id')
-        print(book_list_id)
-        user_id=tool.get_user_id_by_name(user_name)
-        print(user_id)
-        tool.update_like_number_by_user_id(user_id,book_list_id)
+        user_id = tool.get_user_id_by_name(user_name)
+        tool.update_like_number_by_user_id(user_id, book_list_id)
     if like_book_ssid:
         with OpenDB() as con:
             sql = 'select user from user_information where user="{}"'.format(user_name)
@@ -90,9 +90,9 @@ def index():
     # 精品书单
     your_like_list = tool.get_list("you_like", user_id=None)
     comment_list = tool.get_user_comment()
-	# comment_list_by_book=tool.get_comment_by_book_id()
+    # comment_list_by_book=tool.get_comment_by_book_id()
     return render_template('index.html', new_list=new_list, elite_list=elite_list, your_like_list=your_like_list,
-                           comment_list=comment_list,
+                           comment_list=comment_list[:30],
                            user_name=user_name)
 
 
@@ -131,20 +131,22 @@ def category():
     print(book_type)
     from tool import get_book_infomation_by_type
     total_book_list = get_book_infomation_by_type(book_type)
+    max_page = list(range(int(len(total_book_list) / 9)))
 
-    max_page = len(total_book_list) / 10
+    print(max_page)
     page = request.args.get('page')
     if not page:
         page = 1
-    this_page_book_list = total_book_list[page * 10:(page + 1) * 10]
-    return render_template('category.html', this_page_book_list=this_page_book_list, book_type=book_type, now_page=page,
-                           max_page=max_page)
+    page=int(page)
+    this_page_book_list = total_book_list[int(page) * 9:(int(page) + 1) * 9]
+    return render_template('fenlei.html', this_page_book_list=this_page_book_list, book_type=book_type, now_page=page,
+                           max_page=max_page,user_name=user_name)
 
 
 # 选择点击喜好
 @app.route('/category/like_or_no_like', methods=['GET'])
 def like_or_like():
-    user_name = request.args.get('user_name')
+
     book_id = request.args.get('book_id')
     # 记得写1为喜欢0为不喜欢
     like_or_no = request.args.get('like_or_no')
@@ -192,8 +194,6 @@ def update_focus():
         i = eval(i)
         dict2 = i
     book_list_id = dict2['book_list_id']
-    print(book_list_id)
-    print(user_id)
     with OpenDB() as con:
         sql = "INSERT INTO `book_list`.`user_book_list` (`user_id`, `book_list_id`, `type`) VALUES ({}, {}, '2')".format(
             user_id, book_list_id)
@@ -201,29 +201,59 @@ def update_focus():
         con.execute(sql)
 
     return redirect(url_for('all_book_list'), 200)
-@app.route('/admin',methods=['GET'])
+
+
+@app.route('/admin', methods=['GET'])
 def admin():
     return render_template('/adminindex.html')
-@app.route('/admin/user_control/',methods=['GET','POST'])
+
+
+@app.route('/admin/user_control/', methods=['GET', 'POST'])
 def user_control():
-    user_information=tool.get_user_information()
-    if request.method=='POST':
+    user_information = tool.get_user_information()
+    if request.method == 'POST':
         print(request.form)
         if request.form.get('update'):
-            user_id=request.form['user_id']
+            user_id = request.form['user_id']
             password = request.form['password']
-            tool.update_user_password_by_user_id(user_id,password)
+            tool.update_user_password_by_user_id(user_id, password)
             return redirect(url_for('user_control'))
         if request.form.get('delete'):
-            user_id=request.form['user_id']
+            user_id = request.form['user_id']
             tool.delete_user_information_by_user_id(user_id)
             return redirect(url_for('user_control'))
         else:
-            user_name=request.form['user_name']
-            password=request.form['password']
-            tool.insert_new_user(user_name,password)
+            user_name = request.form['user_name']
+            password = request.form['password']
+            tool.insert_new_user(user_name, password)
             return redirect(url_for('user_control'))
-    return render_template('/user_control.html',user_information=user_information)
+    return render_template('/user_control.html', user_information=user_information)
+@app.route('/insert_new_book/', methods=['GET', 'POST'])
+def insert_new_book():
+    user_name=session.get('user_name')
+    if request.method=='POST' and request.form.get('word'):
+        book_name = request.form['word']
+        book_list = tool.search_book_name(book_name)
+        return jsonify(book_list=book_list)
+    if request.method=="POST" and request.form['book1']:
+        book_list_title=request.form['book_list_title']
+        book_intro=request.form['book_list_intro']
+        for i in range(1,4):
+            try:
+                book=request.form['book{}'.format(i)]
+                comment=request.form['comment{}'.format(i)]
+                tool.insert_new_book_list(book_list_title,user_name,book_intro,book,comment)
+            except:
+                pass
+        return redirect(url_for('index'))
+    return render_template('insert_new_book.html')
+
+@app.route('/book_list_deatil', methods=['GET', 'POST'])
+def book_list_deatil():
+    user_name=session['user_name']
+    book_list_id=request.args.get('book_list_id')
+    book_list_details=tool.get_book_list_detail_information_by_book_list_id(book_list_id)
+    return render_template('book_list_deatil.html',book_list_details=book_list_details)
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
-    app.run(host='0.0.0.0')
+    app.run()

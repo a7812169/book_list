@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>每个书单具体页面</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="top">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-1"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('insert_new_book')}}">新建书单</a></p></div>
+            <div class="col-md-3">
+
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+                    </div>
+                </div>
+            </div>
+            {%if not session['user_name']%}
+            <div class="col-md-1">
+
+                <a href="login"><p class="text-center">登录</p></a>
+            </div>
+            {% else%}
+            <div class="col-md-1">
+                <p class="text-center">{{session['user_name']}}</p>
+                </div>
+                <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
+                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
+
+
+                {%endif%}
+        </div>
+        <div class="row">
+                <div class="categroy">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><a href="{{url_for('category')}}?book_type=1">玄幻奇幻</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=2">仙侠武侠</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=3">现代都市</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=4">历史军事</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=5">游戏竞技</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=6">科幻灵异</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=7">同人短篇</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=8">古代言情</a></th>
+                            <th><a href="{{url_for('category')}}?book_type=9">现代言情</a></th>
+
+                        </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+    </div>
+</nav>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<body>
+    <table class="table table-hover">
+        <tr class="info">
+            <th>
+                <div class="col-md-1"></div>
+                <div class="col-md-1">分类</div>
+                <div class="col-md-2">书单名称</div>
+            </th>
+        </tr>
+    </table>
+    <div id="right" style="height:140px;width:600px;float:right;">
+        <table class="table  table-hover" style="height:40px;width:550px;float:right;">
+            <tr class="info">
+                <th>
+                    <div class="col-md-2">
+                        <a href="#">
+                            <img class="media-left" src="static\images\u=3752651820,2279454025&fm=26&gp=0.jpg" alt="Responsive image" width="120" height="120">
+                        </a>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <h3>{{book_list_details[0]['book_list_name']}}</h3>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <br>
+        <table class="table  table-hover" style="height:50px;width:550px;float:right;">
+            <tr class="info">
+                <th>{%for i in book_list_details%}
+                    {%if loop.index<2%}
+                    <h4><p class="text-center">该书单共有{{loop.length}}本书</p></h4>
+                    {%endif%}
+                    {%endfor%}
+                </th>
+            </tr>
+        </table>
+        <br>
+        <table class="table  table-hover" style="height:50px;width:550px;float:right;">
+            <tr class="info">
+                <th><h4>书单简介<span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>                   
+                </h4></th>
+            </tr>
+            <tr class="active">
+                <th>{{book_list_details[0]['book_list_intro']}}</th>
+            </tr>
+        </table>
+        <br>
+        <table class="table  table-hover" style="height:50px;width:550px;float:right;">
+            <tr class="info">
+                <th>
+                    <h4>该用户的其他书单</h4></th>
+            </tr>
+            <tr class="active">
+                <th>xxxxxxxxxxxx</th>
+            </tr>
+            <tr class="active">
+                <th>xxxxxxxxxxxx</th>
+            </tr>
+            <tr class="active">
+                <th>xxxxxxxxxxxx</th>
+            </tr>
+            <tr class="active">
+                <th>xxxxxxxxxxxx</th>
+            </tr>
+            <tr class="active">
+                <th>xxxxxxxxxxxx</th>
+            </tr>
+        </table>
+    </div>
+{%for i in book_list_details%}
+    <div style="width:850px">
+            <table class="table  table-hover" style="width:850px;height:240px">
+                <tr>
+                    <th>
+                        <div style="width:850px;height:220px">
+                            <div vertical-align="middle" class="panel panel-primary">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <a href="#">
+                                            <img class="media-left" src="static\images\u=3752651820,2279454025&fm=26&gp=0.jpg" alt="Responsive image" width="150" height="150">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <table style="width:605px;height:200px">
+                                            <tr>
+                                                <th>
+                                                    <div style="width:250px;height:200px">
+                                                        <div class="text-justify">
+                                                            <div class="col-md-24">
+                                                                <h4>书名
+                                                                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>:{{i['大秦帝国']}}</h4>
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-justify">
+                                                            <div class="col-md-6">作者
+                                                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>:{{i['author']}}</div>
+                                                        </div>
+    
+                                                        <div class="text-justify" style="width:400px;height:40px;">
+                                                            <div class="col-md-10">评语
+                                                                <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>:
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-justify" style="width:400px;height:80px;">
+                                                            <div class="col-md-15">
+                                                            {{i['intro']}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-justify" style="width:400px;height:40px;">
+                                                            <div class="col-md-6">喜欢
+                                                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>:{{i['like_number']}} </div>
+                                                            <div class="col-md-6">不感兴趣
+                                                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>:{{i['unlike_number']}} </div>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="media-right" style="float:right">
+                                                        <div class="col-md-12">
+                                                            <button type="button" class="btn btn-info" style="height:35px;width:80px;float:right">评论</button>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="button" class="btn btn-info" style="height:35px;width:80px;float:right">喜欢</button>
+                                                        </div>
+    
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        </div>
+{%endfor%}
+</body>
+</html>
