@@ -55,13 +55,13 @@
 
 </script>
 <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>-->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="top">
         <br>
         <br>
         <div class="row">
-            <div class="col-md-1"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
+            <div class="col-md-1"><p class="text-center"><a href="{{url_for('index')}}"><img src="static\images\logo.png" width="50" height="50"></a></p></div>
             <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
             <div class="col-md-2"><p class="text-center"><a href="{{url_for('insert_new_book')}}">新建书单</a></p></div>
             <div class="col-md-3">
@@ -126,6 +126,7 @@
 </nav>
 
 {% endblock %}
+<br>
 <br>
 <br>
 <br>
@@ -251,6 +252,7 @@ $(function () { $('.tooltip-show').tooltip('show');});
                             </button>
 
                         </div>
+                        {%if session['user_name']%}
                         <div class="col-md-4 col-md-offset-4">
                             <div class="btn-group" role="group" aria-label="...">
 
@@ -266,10 +268,13 @@ $(function () { $('.tooltip-show').tooltip('show');});
 
 
                                 </script>
-                                <button type="button" class="btn btn-default">喜欢</button>
+                                <form action="" method="post">
+                                    <input name="comment_id" value="{{i[0]}}" hidden="True">
+                                <button type="submit" class="btn btn-default">喜欢<span class="badge">{{comment_dict[i[0]]}}</span></button>
                                 <button type="button" class="btn btn-default" data-toggle="modal"
                                         data-target="#myModal{{i[0]}}">评论
                                 </button>
+                                    </form>
                                 <!-- 模态框（Modal） -->
                                 <div class="modal fade" id="myModal{{i[0]}}" tabindex="-1" role="dialog"
                                      aria-labelledby="myModalLabel" aria-hidden="true">
@@ -305,6 +310,7 @@ $(function () { $('.tooltip-show').tooltip('show');});
                                 </div>
                             </div>
                         </div>
+                        {%endif%}
                     </div>
                 </div>
             </li>

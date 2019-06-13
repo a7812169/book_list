@@ -25,43 +25,45 @@
     <br>
     <br>
     <div class="row">
-        <div class="col-md-2"><p class="text-center"><a href="{{url_for('index')}}">logo</a></p></div>
-        <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
-        <div class="col-md-2"><p class="text-center">新建书单</p></div>
-        <div class="col-md-4">
+            <div class="col-md-1"><p class="text-center"><a href="{{url_for('index')}}"><img src="static\images\logo.png" width="50" height="50"></a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('all_book_list')}}">所有书单</a></p></div>
+            <div class="col-md-2"><p class="text-center"><a href="{{url_for('insert_new_book')}}">新建书单</a></p></div>
+            <div class="col-md-3">
 
-            <div class="col-md-4">
-                <!-- Single button -->
-                <select class="form-control">
-                    <option>男频</option>
-                    <option>女频</option>
+                <div class="col-md-4">
+                    <!-- Single button -->
+                    <select class="form-control">
+                        <option>男频</option>
+                        <option>女频</option>
 
-                </select>
-            </div>
+                    </select>
+                </div>
 
-            <div class="col-md-8">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
         <button class="btn btn-default" type="button">Go!</button>
       </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2">{%if not session['user_name']%}
+            {%if not session['user_name']%}
+            <div class="col-md-1">
 
-            <a href="login"><p class="text-center">登录</p></a>
-
+                <a href="login"><p class="text-center">登录</p></a>
+            </div>
             {% else%}
-            <p class="text-center">{{session['user_name']}}</p>
-            <a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a>
-            <a href="#"><p class="text-center">我的书单</p></a>
-            <a href="#"><p class="text-center">我的关注</p></a>
+            <div class="col-md-1">
+                <p class="text-center">{{session['user_name']}}</p>
+                </div>
+                <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
+                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
 
-            {%endif%}
 
+                {%endif%}
         </div>
-    </div>
 </div>
 <div id="menu" style="background-color:rgb(171, 212, 240);height:800px;width:260px;float:left;">
     <table class="table table-hover">
@@ -70,7 +72,7 @@
                 全部分类
             </th>
         </tr>
-         <tr>
+        <tr>
             <th>
                 <a href="{{url_for('category')}}?book_type=1">玄幻奇幻</a>
             </th>
@@ -97,12 +99,12 @@
         </tr>
         <tr>
             <th>
-               <a href="{{url_for('category')}}?book_type=6">科幻灵异</a>
+                <a href="{{url_for('category')}}?book_type=6">科幻灵异</a>
             </th>
         </tr>
         <tr>
             <th>
-               <a href="{{url_for('category')}}?book_type=7">同人短篇</a>
+                <a href="{{url_for('category')}}?book_type=7">同人短篇</a>
             </th>
         </tr>
         <tr>
@@ -118,347 +120,339 @@
     </table>
 </div>
 
-<div align="center" style="width:900px;height:1000px;float:left;">
-    <div class="col-md-6">
-        <table class="table  table-hover" style="width:450px;height:300px">
+<div align="center" style="width:1100px;height:1000px;float:left;">
+    <div class="col-md-6 col-sm-12">
+        <table class="table  table-hover" style="">
             {%for i in this_page_book_list%}
             {%if loop.index<5%}
-            <form action="{{url_for('like_or_like')}}" method="POST">
-            <tr>
-                <th>
-                    <div style="width:420px;height:220px">
-                        <div vertical-align="middle" class="panel panel-primary">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <a href="#">
-                                        <img class="media-left" src="C:\Users\1\Desktop\HTML\-3098a933014b1580.png"
-                                             alt="Responsive image" width="110" height="110">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <table style="width:380px;height:200px">
-                                        <tr>
-                                            <th>
-                                                <div style="width:250px;height:200px">
-                                                    <div class="text-justify">
-                                                        <div class="col-md-24">
-                                                            <h4>书名
-                                                                <span class="glyphicon glyphicon-file"
-                                                                      aria-hidden="true"></span>:{{i['book_name']}}</h4>
+                <tr>
+                    <th>
+                        <div style="">
+                            <div vertical-align="middle" class="panel panel-primary">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <a href="#">
+                                            <img class="media-left"
+                                                 src="static\u=3752651820,2279454025&fm=26&gp=0.jpg"
+                                                 alt="Responsive image" width="110" height="110">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <table style="width:380px;height:200px">
+                                            <tr>
+                                                <th>
+                                                    <div style="width:250px;height:200px">
+                                                        <div class="text-justify">
+                                                            <div class="col-md-24">
+                                                                <h4>书名
+                                                                    <span class="glyphicon glyphicon-file"
+                                                                          aria-hidden="true"></span>:{{i['book_name']}}
+                                                                </h4>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="text-justify">
-                                                        <div class="col-md-6">作者
-                                                            <span class="glyphicon glyphicon-user"
-                                                                  aria-hidden="true"></span>:{{i['author']}}
+                                                        <div class="text-justify">
+                                                            <div class="col-md-6">作者
+                                                                <span class="glyphicon glyphicon-user"
+                                                                      aria-hidden="true"></span>:{{i['author']}}
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="text-justify" style="width:360px;height:40px;">
-                                                        <div class="col-md-10">评语
-                                                            <span class="glyphicon glyphicon-bookmark"
-                                                                  aria-hidden="true"></span>:
+                                                        <div class="text-justify" style="width:360px;height:40px;">
+                                                            <div class="col-md-10">评语
+                                                                <span class="glyphicon glyphicon-bookmark"
+                                                                      aria-hidden="true"></span>:
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="text-justify" style="width:350px;height:70px;">
-                                                        <div class="col-md-8">
-                                                            {{i['intro']}}
+                                                        <div class="text-justify" style="width:350px;height:70px;">
+                                                            <div class="col-md-8">
+                                                                {{i['intro']}}
 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
+                                                        <div class="row">
 
-                                                        <div class="col-md-5">喜欢
-                                                            <span class="glyphicon glyphicon-ok-sign"
-                                                                  aria-hidden="true"></span>:{{i['like_number']}}
+                                                            <div class="col-md-5">喜欢
+                                                                <span class="glyphicon glyphicon-ok-sign"
+                                                                      aria-hidden="true"></span>:{{i['like_number']}}
+                                                            </div>
+                                                            <div class="col-md-6">不感兴趣
+                                                                <span class="glyphicon glyphicon-remove-sign"
+                                                                      aria-hidden="true"></span>:{{i['unlike_number']}}
+                                                            </div>
                                                         </div>
-                                                        <div class="col-md-6">不感兴趣
-                                                            <span class="glyphicon glyphicon-remove-sign"
-                                                                  aria-hidden="true"></span>:{{i['unlike_number']}}
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="media-right" style="float:right">
+
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            {% if user_name%}
+                                                            <form method="get" action="{{url_for('like_or_like')}}">
+                                                                <input name="book_id" value="{{i['book_id']}}" hidden="True">
+                                                                <input name="like_or_not" value="1" hidden="True">
+                                                            <button type="submit" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right">喜欢
+                                                            </button>
+                                                                </form>
+                                                            {%else %}
+                                                            <button type="button" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right"
+                                                                    onclick="window.location.href='{{url_for('login')}}'">
+                                                                请先登录
+                                                            </button>
+                                                            {%endif%}
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            {%if user_name%}
+                                                            <form action="{{url_for('like_or_like')}}" method="get">
+                                                                <input name="book_id" value="{{i['book_id']}}" hidden="True">
+
+                                                            <button type="submit" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right">不感兴趣
+                                                            </button></form>
+                                                            {%else%}
+                                                            <button type="button" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right"
+                                                                    onclick="window.location.href='{{url_for('login')}}'">
+                                                                请先登录
+                                                            </button>
+                                                            {%endif%}
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="media-right" style="float:right">
-                                                    <div class="col-md-5">
-                                                        {%if user_name%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right">评论
-                                                        </button>
-                                                        {%else%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right"
-                                                        onclick="window.location.href='{{url_for('login')}}'">请先登录
-                                                        </button>
-                                                        {%endif%}
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        {% if user_name%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right">喜欢
-                                                        </button>
-                                                        {%else %}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right"
-                                                         onclick="window.location.href='{{url_for('login')}}'">请先登录
-                                                        </button>
-                                                        {%endif%}
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        {%if user_name%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right">不感兴趣
-                                                        </button>
-                                                        {%else%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right"
-                                                         onclick="window.location.href='{{url_for('login')}}'">请先登录
-                                                        </button>
-                                                        {%endif%}
-                                                    </div>
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </table>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                </th>
-            </tr>
-            </form>
+                    </th>
+                </tr>
+
             {%endif%}
             {%endfor%}
         </table>
     </div>
 
-    <div class="col-md-6">
-        <table align="left" class="table  table-hover" style="width:425px;height:220px;float:right">
+    <div class="col-md-6 col-sm-12">
+        <table align="left" class="table  table-hover" style="width:500px;height:220px;float:right">
             {%for i in this_page_book_list%}
             {%if loop.index>5%}
-              <form action="{{url_for('like_or_like')}}" method="POST">
-            <tr>
-                <th>
-                    <div style="width:420px;height:220px">
-                        <div vertical-align="middle" class="panel panel-primary">
-                            <div class="media">
-                                <div class="media-left media-middle">
-                                    <a href="#">
-                                        <img class="media-left" src="C:\Users\1\Desktop\HTML\-3098a933014b1580.png"
-                                             alt="Responsive image" width="110" height="110">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <table style="width:380px;height:200px">
-                                        <tr>
-                                            <th>
-                                                <div style="width:250px;height:200px">
-                                                    <div class="text-justify">
-                                                        <div class="col-md-24">
-                                                            <h4>书名
-                                                                <span class="glyphicon glyphicon-file"
-                                                                      aria-hidden="true"></span>:{{i['book_name']}}</h4>
+               <tr>
+                    <th>
+                        <div style="">
+                            <div vertical-align="middle" class="panel panel-primary">
+                                <div class="media">
+                                    <div class="media-left media-middle">
+                                        <a href="#">
+                                            <img class="media-left"
+                                                 src="static\u=3752651820,2279454025&fm=26&gp=0.jpg"
+                                                 alt="Responsive image" width="110" height="110">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <table style="width:380px;height:200px">
+                                            <tr>
+                                                <th>
+                                                    <div style="width:250px;height:200px">
+                                                        <div class="text-justify">
+                                                            <div class="col-md-24">
+                                                                <h4>书名
+                                                                    <span class="glyphicon glyphicon-file"
+                                                                          aria-hidden="true"></span>:{{i['book_name']}}
+                                                                </h4>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="text-justify">
-                                                        <div class="col-md-6">作者
-                                                            <span class="glyphicon glyphicon-user"
-                                                                  aria-hidden="true"></span>:{{i['author']}}
+                                                        <div class="text-justify">
+                                                            <div class="col-md-6">作者
+                                                                <span class="glyphicon glyphicon-user"
+                                                                      aria-hidden="true"></span>:{{i['author']}}
+                                                            </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div class="text-justify" style="width:360px;height:40px;">
-                                                        <div class="col-md-10">评语
-                                                            <span class="glyphicon glyphicon-bookmark"
-                                                                  aria-hidden="true"></span>:
+                                                        <div class="text-justify" style="width:360px;height:40px;">
+                                                            <div class="col-md-10">评语
+                                                                <span class="glyphicon glyphicon-bookmark"
+                                                                      aria-hidden="true"></span>:
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-justify" style="width:350px;height:70px;">
+                                                            <div class="col-md-8">
+                                                                {{i['intro']}}
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+
+                                                            <div class="col-md-5">喜欢
+                                                                <span class="glyphicon glyphicon-ok-sign"
+                                                                      aria-hidden="true"></span>:{{i['like_number']}}
+                                                            </div>
+                                                            <div class="col-md-6">不感兴趣
+                                                                <span class="glyphicon glyphicon-remove-sign"
+                                                                      aria-hidden="true"></span>:{{i['unlike_number']}}
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="text-justify" style="width:350px;height:70px;">
-                                                        <div class="col-md-8">
-                                                            {{i['intro']}}
+                                                </th>
+                                                <th>
+                                                    <div class="media-right" style="float:right">
 
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            {% if user_name%}
+                                                            <form method="get" action="{{url_for('like_or_like')}}">
+                                                                <input name="book_id" value="{{i['book_id']}}" hidden="True">
+                                                                <input name="like_or_not" value="1" hidden="True">
+                                                            <button type="submit" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right">喜欢
+                                                            </button>
+                                                                </form>
+                                                            {%else %}
+                                                            <button type="button" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right"
+                                                                    onclick="window.location.href='{{url_for('login')}}'">
+                                                                请先登录
+                                                            </button>
+                                                            {%endif%}
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            {%if user_name%}
+                                                            <form action="{{url_for('like_or_like')}}" method="get">
+                                                                <input name="book_id" value="{{i['book_id']}}" hidden="True">
+
+                                                            <button type="submit" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right">不感兴趣
+                                                            </button></form>
+                                                            {%else%}
+                                                            <button type="button" class="btn btn-info"
+                                                                    style="height:35px;width:70px;float:right"
+                                                                    onclick="window.location.href='{{url_for('login')}}'">
+                                                                请先登录
+                                                            </button>
+                                                            {%endif%}
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-
-                                                        <div class="col-md-5">喜欢
-                                                            <span class="glyphicon glyphicon-ok-sign"
-                                                                  aria-hidden="true"></span>:{{i['like_number']}}
-                                                        </div>
-                                                        <div class="col-md-6">不感兴趣
-                                                            <span class="glyphicon glyphicon-remove-sign"
-                                                                  aria-hidden="true"></span>:{{i['unlike_number']}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </th>
-
-                                            <th>
-                                                <div class="media-right" style="float:right">
-                                                    <div class="col-md-5">
-                                                         {%if user_name%}
-                                                        <input name="comment">
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right">评论
-                                                        </button>
-                                                        {%else%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right"
-                                                         onclick="window.location.href='{{url_for('login')}}'">请先登录
-                                                        </button>
-                                                        {%endif%}
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        {% if user_name%}
-                                                        <input name="like" value="1" hidden="True">
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right">喜欢
-                                                        </button>
-                                                        {%else %}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right"
-                                                         onclick="window.location.href='{{url_for('login')}}'">请先登录
-                                                        </button>
-                                                        {%endif%}
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                    </div>
-                                                    <div class="col-md-5">
-                                                        {%if user_name%}
-                                                        <input name="unlike" value="1" hidden="">
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right">不感兴趣
-                                                        </button>
-                                                        {%else%}
-                                                        <button type="button" class="btn btn-info"
-                                                                style="height:35px;width:70px;float:right"
-                                                         onclick="window.location.href='{{url_for('login')}}'">请先登录
-                                                        </button>
-                                                        {%endif%}
-                                                    </div>
-                                                </div>
-                                            </th>
-
-                                        </tr>
-                                    </table>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
 
-                </th>
-            </tr>
-              </form>
+                    </th>
+                </tr>
             {%endif%}
             {%endfor%}
         </table>
     </div>
 
- <nav aria-label="Page navigation">
-    <ul class="pagination">
-        <li>
-            <a href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        {%for i in max_page%}
-        {%if i==now_page%}
-        <li class="active" id="{{now_page}}"><a href="category?book_type={{book_type}}&page={{i}}">{{i}}</a></li>
-        {%else%}
-        <li class=""><a href="category?book_type={{book_type}}&page={{i}}">{{i}}</a></li>
-        {%endif%}
-        {%endfor%}
-        <li>
-            <a href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {%for i in max_page%}
+            {%if i==now_page%}
+            <li class="active" id="{{now_page}}"><a href="category?book_type={{book_type}}&page={{i}}">{{i}}</a></li>
+            {%else%}
+            <li class=""><a href="category?book_type={{book_type}}&page={{i}}">{{i}}</a></li>
+            {%endif%}
+            {%endfor%}
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </body>

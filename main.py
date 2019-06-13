@@ -71,8 +71,14 @@ def regist():
 # 入口首页
 @app.route('/index', methods=['POST', 'GET'])
 def index():
+    comment_id=request.form.get('comment_id')
     like_book_ssid = request.args.get('ssid')
     user_name = session.get('user_name')
+    if comment_id:
+        with OpenDB() as con:
+            user_id = tool.get_user_id_by_name(user_name)
+            sql="INSERT INTO `book_list`.`comment_like_record` (`comment_id`, `user_id`) VALUES ('{}', '{}')".format(comment_id,user_id)
+            con.execute(sql)
     if request.args.get('type'):
         book_list_id = request.args.get('book_list_id')
         user_id = tool.get_user_id_by_name(user_name)
@@ -89,10 +95,10 @@ def index():
     elite_list = tool.get_list("elite", user_id=None)
     # 精品书单
     your_like_list = tool.get_list("you_like", user_id=None)
-    comment_list = tool.get_user_comment()
+    comment_list,comment_dict = tool.get_user_comment()
     # comment_list_by_book=tool.get_comment_by_book_id()
     return render_template('index.html', new_list=new_list, elite_list=elite_list, your_like_list=your_like_list,
-                           comment_list=comment_list[:30],
+                           comment_list=comment_list[:30],comment_dict=comment_dict,
                            user_name=user_name)
 
 
@@ -149,12 +155,13 @@ def like_or_like():
 
     book_id = request.args.get('book_id')
     # 记得写1为喜欢0为不喜欢
-    like_or_no = request.args.get('like_or_no')
-    if like_or_no:
-        tool.update_book_information_by_book_id(book_id, like_or_no)
+    like_or_not = request.args.get('like_or_not')
+    print(book_id,like_or_not)
+    if like_or_not:
+        tool.update_book_information_by_book_id(book_id, 1)
     else:
-        tool.update_book_information_by_book_id(book_id, like_or_no)
-    return redirect(category)
+        tool.update_book_information_by_book_id(book_id,None)
+    return redirect(url_for('category'))
 
 
 # 用户书单
@@ -253,7 +260,19 @@ def book_list_deatil():
     user_name=session.get('user_name')
     book_list_id=request.args.get('book_list_id')
     book_list_details=tool.get_book_list_detail_information_by_book_list_id(book_list_id)
-    return render_template('book_list_deatil.html',book_list_details=book_list_details,user_name=user_name)
+    other_book_list=tool.get_user_other_book_list_by_user_name(user_name)
+    book_id = request.args.get('book_id')
+    # 记得写1为喜欢0为不喜欢
+    like_or_not = request.args.get('like_or_not')
+    if like_or_not=="2":
+        print("进入不喜欢")
+        tool.update_book_information_by_book_id(book_id,like_or_not)
+        return redirect(url_for('book_list_deatil', book_list_id=book_list_id))
+    if like_or_not:
+        tool.update_book_information_by_book_id(book_id, 1)
+        return redirect(url_for('book_list_deatil',book_list_id=book_list_id))
+
+    return render_template('book_list_deatil.html',book_list_details=book_list_details,user_name=user_name,other_book_list=other_book_list,book_list_id=book_list_id)
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
     app.run()

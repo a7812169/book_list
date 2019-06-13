@@ -9,9 +9,13 @@ def get_user_comment():
         sql = "select * from comment,book_imformation B,user_information U,book_list where comment.user_id=U.ssid and comment.book_id=B.ssid and book_list.ssid=comment.book_list order by time desc limit 50"
         con.execute(sql)
         res = con.fetchall()
-        comment_list = [i for i in res]
-        return comment_list
+        sql="SELECT comment_id,sum(like_number) FROM book_list.comment_like_record group by comment_id"
+        con.execute(sql)
+        res2=con.fetchall()
+        comment_dict={i[0]:i[1] for i in res2}
 
+        comment_list = [i for i in res]
+        return comment_list,comment_dict
 
 def get_comment_by_book_id(book_id):
     with OpenDB()as con:
@@ -132,11 +136,17 @@ def get_book_infomation_by_type(type=None):
             book_list.append(book_dict)
         return book_list
 
+def get_book_list_by_create_user(user_name):
+    user_id=get_user_id_by_name(user_name)
+    with OpenDB() as con:
+        sql="select * from "
+
 
 def update_book_information_by_book_id(book_id, like_type):
     with OpenDB() as con:
         if like_type == 1:
             sql = "update book_imformation set like_number=like_number+1 where ssid={}".format(book_id)
+            print(sql)
         else:
             sql = "update book_imformation set unlike_number=unlike_number+1 where ssid={}".format(book_id)
         con.execute(sql)
@@ -212,7 +222,7 @@ def get_book_list_detail_information_by_book_list_id(book_list_id):
         return book_list
 def get_all_book_list_infomation():
     with OpenDB() as con:
-        sql = "select * from book_list l ,user_book_list U,user_information where l.ssid=U.book_list_id and user_information.ssid=U.user_id"
+        sql = "select*,count(book_list_name)from book_list l,user_book_list UB,user_information U,comment C where C.user_id=U.ssid and C.book_list=l.ssid and l.ssid=UB.book_list_id and U.ssid=UB.user_id group by book_list_name"
         con.execute(sql)
         res = con.fetchall()
         book_list = []
@@ -224,8 +234,8 @@ def get_all_book_list_infomation():
                 like_number=i[3],
                 type=i[5],
                 unlike_number=i[4],
-                created_userid=i[12],
-                sum_of_booklist=i[10])
+                created_userid=i[13],
+                sum_of_booklist=i[-1])
             book_list.append(book_dict)
 
         return book_list
@@ -345,5 +355,19 @@ def insert_new_book_list(book_title_name,user_name,book_intro,book,comment):
         con.execute(sql)
         if len(con.fetchall())<1:
             sql="INSERT INTO `book_list`.`user_book_list` (`user_id`, `book_list_id`, `type`) VALUES ('{}', '{}', '{}')".format(user_id,book_list_id,1)
+            print(sql)
             con.execute(sql)
         return True
+def get_user_other_book_list_by_user_name(user_nane):
+    user_id=get_user_id_by_name(user_nane)
+    with OpenDB() as con:
+        sql="SELECT * FROM book_list.user_book_list,book_list where user_id={} and book_list_id=book_list.ssid group by book_list_id".format(user_id)
+        con.execute(sql)
+        ress=con.fetchall()
+        book_list=[]
+        for res in ress:
+            book_dict = dict(user_id=res[1],
+                             book_list_id=res[2],
+                             book_list_name=res[6])
+            book_list.append(book_dict)
+        return book_list
