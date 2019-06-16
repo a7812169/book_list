@@ -10,11 +10,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="242" column="42" selection-start-line="242" selection-start-column="42" selection-end-line="242" selection-end-column="42" />
+            <state relative-caret-position="300">
+              <caret line="65" column="46" lean-forward="true" selection-start-line="65" selection-start-column="46" selection-end-line="65" selection-end-column="46" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -22,11 +22,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/my_focus_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="294" column="33" selection-start-line="294" selection-start-column="33" selection-end-line="294" selection-end-column="33" />
+            <state relative-caret-position="204">
+              <caret line="156" column="3" lean-forward="true" selection-start-line="156" selection-start-column="3" selection-end-line="156" selection-end-column="118" />
               <folding>
                 <element signature="n#style#0;n#html#0;n#!!top" />
                 <element signature="n#head#0;n#html#0;n#!!top" />
@@ -203,7 +203,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>i</find>
       <find>form</find>
       <find>&lt;div class=&quot;col-md-1&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;p class=&quot;text-center&quot;&gt;我的书单&lt;/p&gt;&lt;/a&gt;&lt;/div&gt;</find>
       <find>我的书单</find>
@@ -233,6 +232,7 @@
       <find>inse</find>
       <find>all</find>
       <find>关注</find>
+      <find>&lt;div class=&quot;col-md-1&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;p class=&quot;text-center&quot;&gt;我的关注&lt;/p&gt;&lt;/a&gt;&lt;/div&gt;</find>
     </findStrings>
     <replaceStrings>
       <replace>src=&quot;static/</replace>
@@ -256,6 +256,8 @@
       <replace>&lt;div class=&quot;col-md-1&quot;&gt;&lt;a href=&quot;{{url_for('user_book_list')}}&quot;&gt;&lt;p class=&quot;text-center&quot;&gt;我的书单&lt;/p&gt;&lt;/a&gt;&lt;/div&gt;</replace>
       <replace>res</replace>
       <replace>&lt;a href=&quot;{{url_for('index')}}&quot;&gt;&lt;img href=&quot;static/logn.png&quot;&gt;&lt;/img&gt;&lt;/a&gt;</replace>
+      <replace>&lt;div class=&quot;col-md-1&quot;&gt;&lt;a href=&quot;{{url_for('user')}}&quot;&gt;&lt;p class=&quot;text-center&quot;&gt;我的关注&lt;/p&gt;&lt;/a&gt;&lt;/div&gt;</replace>
+      <replace>&lt;div class=&quot;col-md-1&quot;&gt;&lt;a href=&quot;{{url_for('my_focus_list')}}&quot;&gt;&lt;p class=&quot;text-center&quot;&gt;我的关注&lt;/p&gt;&lt;/a&gt;&lt;/div&gt;</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\pding\PycharmProjects\untitled\templates</dir>
@@ -329,11 +331,6 @@
             <path>
               <item name="book_list" type="b2602c69:ProjectViewProjectNode" />
               <item name="book_list" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="book_list" type="b2602c69:ProjectViewProjectNode" />
-              <item name="book_list" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -516,12 +513,12 @@
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19157393" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19157393" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3285968" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.357016" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.357016" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39964476" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1117,16 +1114,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="242" column="42" selection-start-line="242" selection-start-column="42" selection-end-line="242" selection-end-column="42" />
-          <folding>
-            <element signature="e#24#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/my_list.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="184">
@@ -1152,8 +1139,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/my_focus_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="294" column="33" selection-start-line="294" selection-start-column="33" selection-end-line="294" selection-end-column="33" />
+        <state relative-caret-position="204">
+          <caret line="156" column="3" lean-forward="true" selection-start-line="156" selection-start-column="3" selection-end-line="156" selection-end-column="118" />
           <folding>
             <element signature="n#style#0;n#html#0;n#!!top" />
             <element signature="n#head#0;n#html#0;n#!!top" />
@@ -1176,6 +1163,16 @@
             <element signature="n#div#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#5;n#th#0;n#tr#0;n#table#1;n#body#0;n#html#0;n#!!top" />
             <element signature="n#div#3;n#div#1;n#div#0;n#div#0;n#div#0;n#div#5;n#th#0;n#tr#0;n#table#1;n#body#0;n#html#0;n#!!top" />
             <element signature="n#div#2;n#div#0;n#div#0;n#div#0;n#div#5;n#th#0;n#tr#0;n#table#1;n#body#0;n#html#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="65" column="46" lean-forward="true" selection-start-line="65" selection-start-column="46" selection-end-line="65" selection-end-column="46" />
+          <folding>
+            <element signature="e#24#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
