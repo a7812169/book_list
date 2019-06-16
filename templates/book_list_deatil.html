@@ -49,7 +49,7 @@
                 <p class="text-center">{{session['user_name']}}</p>
                 </div>
                 <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
-                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('my_focus_list')}}"><p class="text-center">我的关注</p></a></div>
                 <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
 
 
@@ -104,7 +104,7 @@
                 <th>
                     <div class="col-md-2">
                         <a href="#">
-                            <img class="media-left" src="static\images\u=3752651820,2279454025&fm=26&gp=0.jpg" alt="Responsive image" width="120" height="120">
+                            <img class="media-left" src="{{url_for('static',filename='u=3752651820,2279454025&fm=26&gp=0.jpg')}}" alt="Responsive image" width="120" height="120">
                         </a>
                     </div>
                     <div class="col-md-2"></div>
@@ -198,7 +198,7 @@
                                                 <th>
                                                     <div class="media-right" style="float:right">
                                                         <div class="col-md-12">
-                                                            {% if user_name%}
+                                                            {% if session['user_name']%}
                                                             <form method="get" action="{{url_for('book_list_deatil')}}?book_list_id={{book_list_id}}">
                                                                 <input name="book_id" value="{{i['book_id']}}" hidden="True">
                                                                 <input name="book_list_id" value="{{book_list_id}}" hidden="True">
@@ -258,7 +258,7 @@
                                                         <div class="col-md-12">
                                                         </div>
                                                         <div class="col-md-12">
-                                                            {% if user_name%}
+                                                            {% if session['user_name']%}
                                                             <form method="get" action="{{url_for('book_list_deatil')}}?book_list_id={{book_list_id}}">
                                                                 <input name="book_id" value="{{i['book_id']}}" hidden="True">
                                                                 <input name="book_list_id" value="{{book_list_id}}" hidden="True">

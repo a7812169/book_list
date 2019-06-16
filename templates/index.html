@@ -94,7 +94,7 @@
                 <p class="text-center">{{session['user_name']}}</p>
                 </div>
                 <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
-                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('my_focus_list')}}"><p class="text-center">我的关注</p></a></div>
                 <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
 
 
@@ -178,7 +178,7 @@ $(function () { $('.tooltip-show').tooltip('show');});
                     {%if session['user_name']%}
                     <span class="badge"><a class="red" href="?book_list_id={{i[3]}}&type=1">❤</a></span>
                     <span class="badge">{{i[2]}}</span>
-                    <a href="{{url_for('book_list_deatil')}}?book_list_id={{i[2]}}">{{i[0]}}</a>
+                    <a href="{{url_for('book_list_deatil')}}?book_list_id={{i[3]}}">{{i[0]}}</a>
                     {%else%}
 
                     <span class="badge"><a href="#" data-toggle="tooltip" title="请先登录再点赞">❤</a></span>
@@ -196,8 +196,8 @@ $(function () { $('.tooltip-show').tooltip('show');});
                 {% if your_like_list %}
                 {%for i in your_like_list%}
                 <li class="list-group-item">
-                    <span class="badge"><a class="red" href="?book_list_id={{i['ssid']}}">❤</a></span>
-                    <span class="badge">{{i['like_number']}}</span>
+                    <span class="badge"><a class="red" href="?book_list_id={{i['ssid']}}&type=1">❤</a></span>
+                    <span class="badge">相似度{{i['like_number']}}</span>
                     <a href="{{url_for('book_list_deatil')}}?book_list_id={{i['ssid']}}">{{i['book_list_name']}}</a>
                 </li>
                 {%endfor%}
@@ -324,40 +324,101 @@ $(function () { $('.tooltip-show').tooltip('show');});
             {%if 10< loop.index<20%}
             <ul class="list-group">
 
-                <li class="list-group-item">
-                    <div class="title">
-                        <span class="glyphicon glyphicon-user"></span>
-                        用户 <strong>{{ i[19]}}</strong>在
-                        <small>{{i[9]}}</small>
-                        打分 {%if i[5]<3%}❤❤❤
-                        {%elif 3< i[5]<6%}❤❤❤❤❤❤
-                        {%elif 6< i[5]<10%}❤❤❤❤❤❤❤❤❤
-                        {%endif%}
+            <li class="list-group-item">
+                <div class="title">
+                    <span class="glyphicon glyphicon-user"></span>
+                    用户 <strong>{{ i[19]}}</strong>在
+                    <small>{{i[9]}}</small>
+                    打分 {%if i[5]<3%}❤❤❤
+                    {%elif 3< i[5]<6%}❤❤❤❤❤❤
+                    {%elif 6< i[5]<10%}❤❤❤❤❤❤❤❤❤
+                    {%endif%}
 
 
+                </div>
+                <br>
+
+                <div class="mid">
+                    <div class="row">
+                        <span class="glyphicon glyphicon-book"></span> <strong>{{i[3]}}</strong>
                     </div>
+                </div>
+                <div class="botton">
+
                     <br>
+                    <div class="row">
+                        <div class="col-md-4">来自
 
-                    <div class="mid">
-                        <div class="row">
-                            <span class="glyphicon glyphicon-book"></span> <strong>{{i[3]}}</strong>
+                            <button type="button" class="btn btn-success" data-toggle="popover"
+                                    title="{{i[8]}}"
+                                    data-content="作者：{{i[10]}}&#10简介：{{i[11]}}&#10售价{{i[14]}}&#10发售时间{{i[15]}}"
+                            >{{i[8]}}
+                            </button>
+
                         </div>
-                    </div>
-                    <div class="botton">
+                        {%if session['user_name']%}
+                        <div class="col-md-4 col-md-offset-4">
+                            <div class="btn-group" role="group" aria-label="...">
 
-                        <br>
-                        <div class="row">
-                            <div class="col-md-4">来自 <a href="book_id{{i[2]}}">{{i[8]}}</a></div>
-                            <div class="col-md-4 col-md-offset-4">
-                                <div class="btn-group" role="group" aria-label="...">
-                                    <button type="button" class="btn btn-default">喜欢</button>
-                                    <button type="button" class="btn btn-default">评论</button>
+                                <script>$(function (){
+    $("[data-toggle='popover']").popover();
+});
+
+
+
+
+
+
+
+
+                                </script>
+                                <form action="" method="post">
+                                    <input name="comment_id" value="{{i[0]}}" hidden="True">
+                                <button type="submit" class="btn btn-default">喜欢<span class="badge">{{comment_dict[i[0]]}}</span></button>
+                                <button type="button" class="btn btn-default" data-toggle="modal"
+                                        data-target="#myModal{{i[0]}}">评论
+                                </button>
+                                    </form>
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="myModal{{i[0]}}" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">选择您想评论的话</h4>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <span>输入评论内容</span>
+                                                <input type="text">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        关闭
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">提交更改</button>
+                                                    <form action="" method="post">
+                                                        <input name="user_name" value="{{session['user_name']}}"
+                                                               hidden="True">
+                                                        <input name="book_list_id" value="{{i['book_list_id']}}"
+                                                               hidden="True">
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
                                 </div>
                             </div>
                         </div>
+                        {%endif%}
                     </div>
-                </li>
-            </ul>
+                </div>
+            </li>
+        </ul>
             {%endif%}
             {%endfor%}
             <div/>

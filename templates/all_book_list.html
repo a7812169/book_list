@@ -154,7 +154,7 @@ $(document).ready(function(){
                 <p class="text-center">{{session['user_name']}}</p>
                 </div>
                 <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
-                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('my_focus_list')}}"><p class="text-center">我的关注</p></a></div>
                 <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
 
 

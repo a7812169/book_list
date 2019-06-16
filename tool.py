@@ -61,6 +61,14 @@ def get_user_book_list_by_user_name(user_name):
             book_list_list.append(book_dict)
         return book_list_list
 
+def get_create_user_name_by_book_list_id(book_list_id):
+    with OpenDB()as con:
+        sql="SELECT * FROM user_book_list,user_information where book_list_id={} and user_information.ssid=user_book_list.user_id".format(book_list_id)
+        print(sql)
+        con.execute(sql)
+        res=con.fetchone()
+        return res[6]
+
 
 def get_list(type, user_id=None):
     if type == "new":
@@ -92,15 +100,19 @@ def get_you_like(user_id):
         # 找到 同样  喜欢这个用户喜欢书的相识用户
         con.execute(sql)
         res = con.fetchall()
-        print(res)
+        if len(res)<2:
+            return None
         same_user_list = []
         for i in res:
-            same_user_list.append(i[0])
+            same_user_list.append("{}".format(i[0]))
 
         same_user_list = same_user_list
-        del same_user_list[same_user_list.index(int(user_id))]
-        sql = "select book_list from comment where book_id in {}".format(str(tuple(same_user_list)))
+        print(same_user_list)
+        del same_user_list[same_user_list.index(str(user_id))]
+        k=','.join(same_user_list)
+        sql = "select book_list from comment where user_id in ({})".format(k)
         # 找到 同样  喜欢这个用户喜欢书的相识用户 喜欢书 的书单
+        print(sql)
         con.execute(sql)
         res = con.fetchall()
         book_list = [k[0] for k in res]
@@ -112,7 +124,7 @@ def get_you_like(user_id):
         book_like_list = [dict(ssid=k[1], like_number=int(k[0]), book_list_name=k[2]) for k in res]
 
         return book_like_list
-
+get_you_like(149)
 
 def get_book_infomation_by_type(type=None):
     with OpenDB() as con:
@@ -222,24 +234,44 @@ def get_book_list_detail_information_by_book_list_id(book_list_id):
         return book_list
 def get_all_book_list_infomation():
     with OpenDB() as con:
-        sql = "select*,count(book_list_name)from book_list l,user_book_list UB,user_information U,comment C where C.user_id=U.ssid and C.book_list=l.ssid and l.ssid=UB.book_list_id and U.ssid=UB.user_id group by book_list_name"
+        sql = """select comment.comment,count(book_list_id),user_book_list.user_id,book_list_id,book_list.type,book_list_name from 
+user_book_list , user_information,book_list,comment where 
+user_information.ssid=user_book_list.user_id and book_list.ssid=user_book_list.book_list_id
+and comment.user_id=user_book_list.user_id and comment.book_list=user_book_list.book_list_id 
+group by book_list_id"""
         con.execute(sql)
         res = con.fetchall()
         book_list = []
         for i in res:
             book_dict = dict(
-                book_list_id=i[0],
-                book_list_name=i[1],
-                create_time=i[2],
-                like_number=i[3],
-                type=i[5],
-                unlike_number=i[4],
-                created_userid=i[13],
-                sum_of_booklist=i[-1])
+                book_list_id=i[3],
+                book_list_name=i[5],
+                created_userid=i[-1],
+                type=i[4],
+
+                sum_of_booklist=i[1])
             book_list.append(book_dict)
 
         return book_list
+def get_user_book_list_infomation_by_user_name(user_name):
+    user_id=get_user_id_by_name(user_name)
+    with OpenDB() as con:
+        sql = """select user_book_list.user_id,book_list_id,book_list.type,user_book_list.type,book_list_name from 
+user_book_list , user_information,book_list where 
+user_information.ssid=user_book_list.user_id and book_list.ssid=user_book_list.book_list_id
+and user_book_list.type=2 and user_information.ssid={}""".format(user_id)
+        con.execute(sql)
+        res = con.fetchall()
+        book_list = []
+        for i in res:
+            book_dict = dict(
+                book_list_id=i[1],
+                book_list_name=i[4],
+                created_userid=i[-1],
+                type=i[2],)
+            book_list.append(book_dict)
 
+        return book_list
 
 def get_user_focus_list(user_name):
     with OpenDB() as con:
@@ -336,18 +368,19 @@ def get_book_information_by_book_name(book_name):
         book_list.append(book_dict)
         print(book_list)
         return book_list
-def insert_new_book_list(book_title_name,user_name,book_intro,book,comment):
+def insert_new_book_list(type,book_title_name,user_name,book_intro,book,comment):
     with OpenDB() as con:
         sql="select * from book_list where book_list_name='{}'".format(book_title_name)
         con.execute(sql)
         if len(con.fetchall())<1:
-            sql="INSERT INTO `book_list`.`book_list` (`book_list_name`,`book_list_intro`) VALUES ('{}','{}')".format(book_title_name,book_intro)
+            sql="INSERT INTO `book_list`.`book_list` (`book_list_name`,`book_list_intro`,`type`) VALUES ('{}','{}','{}')".format(book_title_name,book_intro,type)
             con.execute(sql)
         sql="select ssid from book_list where book_list_name ='{}'".format(book_title_name)
         con.execute(sql)
         user_id=get_user_id_by_name(user_name)
         book_list_id=con.fetchone()[0]
         book_id=get_book_information_by_book_name(book)[0]['book_id']
+        print(user_id,book_list_id,book_id)
         sql="INSERT INTO `book_list`.`comment` (`user_id`, `book_id`, `comment`, `book_list`, `star_num`) VALUES ('{}', '{}', '{}', '{}', '{}')"\
             .format(user_id,book_id,comment,book_list_id,5)
         con.execute(sql)

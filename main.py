@@ -46,7 +46,6 @@ def regist():
         user = request.form['username']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        print(user, password, confirm_password)
         if password == confirm_password:
             pass
         else:
@@ -55,12 +54,13 @@ def regist():
             sql = 'select user from user_information where user="{}"'.format(user)
             con.execute(sql)
             if len(con.fetchall()) > 0:
-                print(con.fetchall())
-                flash('注册成功')
+                return redirect(url_for('regist'))
             else:
                 sql = 'insert into user_information(`user`,`password`)values("{}","{}")'.format(user, password)
                 try:
                     con.execute(sql)
+                    session['user_name'] = user
+                    return redirect(url_for('index'))
                 except:
                     print('发生位置错误，无法插入')
         return render_template('zhuceye.html')
@@ -74,6 +74,10 @@ def index():
     comment_id=request.form.get('comment_id')
     like_book_ssid = request.args.get('ssid')
     user_name = session.get('user_name')
+    if user_name:
+        user_id=tool.get_user_id_by_name(user_name)
+    else:
+        user_id=None
     if comment_id:
         with OpenDB() as con:
             user_id = tool.get_user_id_by_name(user_name)
@@ -87,14 +91,12 @@ def index():
         with OpenDB() as con:
             sql = 'select user from user_information where user="{}"'.format(user_name)
             con.execute(sql)
-    if user_name:
-        user_id = tool.get_user_id_by_name(user_name)
     # todo 这里以后需要写个sql 转换ssid
     new_list = tool.get_list("new", user_id=None)
     # 最新漂流
     elite_list = tool.get_list("elite", user_id=None)
     # 精品书单
-    your_like_list = tool.get_list("you_like", user_id=None)
+    your_like_list = tool.get_list("you_like", user_id=user_id)
     comment_list,comment_dict = tool.get_user_comment()
     # comment_list_by_book=tool.get_comment_by_book_id()
     return render_template('index.html', new_list=new_list, elite_list=elite_list, your_like_list=your_like_list,
@@ -117,17 +119,32 @@ def all_book_list():
 
     data = 10 * int(now_page)
     data2 = 10 * (int(now_page) + 1)
-
-    book_list = book_list[data:data2]
+    if not len(book_list)<10:
+        book_list = book_list[data:data2]
     return render_template('all_book_list.html', book_list=book_list, user_focus_list=user_focus_list,
                            total_page=list(range(total_page)), now_page=int(now_page))
 
 
 @app.route('/my_focus_list', methods=['POST', 'GET'])
 def my_focus_list():
-    user_name = request.args.get('user_name')
-    user_id = tool.get_user_id_by_name(user_name)
+    user_name = session.get('user_name')
+    book_list = tool.get_user_book_list_infomation_by_user_name(user_name)
+    total_page = tool.page()
+    now_page = request.args.get('page')
+    if user_name:
+        user_focus_list = tool.get_user_focus_list(user_name)
+        print(user_focus_list)
+    else:
+        user_focus_list = None
+    if not now_page:
+        now_page = 1
 
+    data = 10 * int(now_page)
+    data2 = 10 * (int(now_page) + 1)
+    if not len(book_list) < 10:
+        book_list = book_list[data:data2]
+    return render_template('my_focus_list.html', book_list=book_list,
+                           total_page=list(range(total_page)), now_page=int(now_page))
 
 # 图书分类
 @app.route('/category', methods=['POST', 'GET'])
@@ -208,7 +225,22 @@ def update_focus():
         con.execute(sql)
 
     return redirect(url_for('all_book_list'), 200)
+@app.route('/delete_focus/', methods=['POST'])
+def delete_focus():
+    user_name = session.get('user_name')
+    user_id = tool.get_user_id_by_name(user_name)
+    a = request.values  # 把Ajax中的数据取出来
+    for i in a:
+        i = eval(i)
+        dict2 = i
+    book_list_id = dict2['book_list_id']
+    with OpenDB() as con:
+        sql = "DELETE FROM `book_list`.`user_book_list` WHERE `user_id` = '{}' and book_list_id='{}' and type=2".format(
+            user_id, book_list_id)
+        print(sql)
+        con.execute(sql)
 
+    return redirect(url_for('my_focus_list'))
 
 @app.route('/admin', methods=['GET'])
 def admin():
@@ -243,13 +275,14 @@ def insert_new_book():
         book_list = tool.search_book_name(book_name)
         return jsonify(book_list=book_list)
     if request.method=="POST" and request.form['book1']:
+        type=request.form['option']
         book_list_title=request.form['book_list_title']
         book_intro=request.form['book_list_intro']
         for i in range(1,4):
             try:
                 book=request.form['book{}'.format(i)]
                 comment=request.form['comment{}'.format(i)]
-                tool.insert_new_book_list(book_list_title,user_name,book_intro,book,comment)
+                tool.insert_new_book_list(type,book_list_title,user_name,book_intro,book,comment)
             except:
                 pass
         return redirect(url_for('index'))
@@ -257,10 +290,13 @@ def insert_new_book():
 
 @app.route('/book_list_deatil', methods=['GET', 'POST'])
 def book_list_deatil():
-    user_name=session.get('user_name')
     book_list_id=request.args.get('book_list_id')
+    book_list_created_by_user_name=tool.get_create_user_name_by_book_list_id(book_list_id)
     book_list_details=tool.get_book_list_detail_information_by_book_list_id(book_list_id)
-    other_book_list=tool.get_user_other_book_list_by_user_name(user_name)
+
+    other_book_list=tool.get_user_other_book_list_by_user_name(book_list_created_by_user_name)
+
+    print(other_book_list)
     book_id = request.args.get('book_id')
     # 记得写1为喜欢0为不喜欢
     like_or_not = request.args.get('like_or_not')
@@ -272,7 +308,7 @@ def book_list_deatil():
         tool.update_book_information_by_book_id(book_id, 1)
         return redirect(url_for('book_list_deatil',book_list_id=book_list_id))
 
-    return render_template('book_list_deatil.html',book_list_details=book_list_details,user_name=user_name,other_book_list=other_book_list,book_list_id=book_list_id)
+    return render_template('book_list_deatil.html',book_list_details=book_list_details,other_book_list=other_book_list,book_list_id=book_list_id)
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
     app.run()

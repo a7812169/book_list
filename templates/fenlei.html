@@ -58,7 +58,7 @@
                 <p class="text-center">{{session['user_name']}}</p>
                 </div>
                 <div class="col-md-1"><a href="{{url_for('outlogin')}}?back_url=index"><p class="text-center">退出账号</p></a></div>
-                <div class="col-md-1"><a href="#"><p class="text-center">我的关注</p></a></div>
+                <div class="col-md-1"><a href="{{url_for('my_focus_list')}}"><p class="text-center">我的关注</p></a></div>
                 <div class="col-md-1"><a href="{{url_for('user_book_list')}}"><p class="text-center">我的书单</p></a></div>
 
 
@@ -67,11 +67,6 @@
 </div>
 <div id="menu" style="background-color:rgb(171, 212, 240);height:800px;width:260px;float:left;">
     <table class="table table-hover">
-        <tr>
-            <th>
-                全部分类
-            </th>
-        </tr>
         <tr>
             <th>
                 <a href="{{url_for('category')}}?book_type=1">玄幻奇幻</a>
