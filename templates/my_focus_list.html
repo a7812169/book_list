@@ -286,7 +286,7 @@ $(document).ready(function(){
             book_list_id:$("#book_list_id_up{{i['book_list_id']}}").val(),
         }
         data = JSON.stringify(data);
-        $.post("http://127.0.0.1:5000/"+'delete_focus/',data,function (res) {
+        $.post("http://0.0.0.0:5000/"+'delete_focus/',data,function (res) {
             if (res.result){
                 alert('update success!!!')
             }

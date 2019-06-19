@@ -77,8 +77,8 @@ $("#"+gg).val(author);
 }
 </script>
     <script>
-   function addlist(obj,kk){
-        $("#book-con").append('<div style="width:550px;height:260px"><div vertical-align="middle" class="panel panel-primary"><button type="button"' + 'onClick = close(8)' + ' class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="row"><div class="col-md-2"><h4>书名:</h4> </div> <div class="col-md-2"><div class="form-group"><input type="value" class="form-control" id="book"+kk+"\"" placeholder="书名" style="width:120px;height:40px"></div></div><div class="col-md-1"></div><div class="col-md-2"><h4>作者:</h4></div><div class="col-md-2"><div class="form-group"><input type="value" class="form-control" id="exampleInputPassword1" placeholder="作者" style="width:120px;height:40px"> </div></div></div><div class="form-group"><input type="value" class="form-control" id="exampleInputPassword1" placeholder="书籍评价" style="width:500px;height:120px"></div><div class="row"><div class="col-md-12"><h4> 推荐指数:    <span >&#9733;</span><span >&#9733;</span><span >&#9733;</span><span >&#9733;</span><span >&#9733;</span></h4></div> </div></div></div>')
+   function addlist(obj){
+        $("#book-con").append('<div style="width:550px;height:260px"><div vertical-align="middle" class="panel panel-primary"><button type="button"' + 'onClick = close(8)' + ' class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><div class="row"><div class="col-md-2"><h4>书名:</h4> </div> <div class="col-md-2"><div class="form-group"><input type="value" class="form-control" id="book" placeholder="书名" style="width:120px;height:40px"></div></div><div class="col-md-1"></div><div class="col-md-2"><h4>作者:</h4></div><div class="col-md-2"><div class="form-group"><input type="value" class="form-control" id="exampleInputPassword1" placeholder="作者" style="width:120px;height:40px"> </div></div></div><div class="form-group"><input type="value" class="form-control" id="exampleInputPassword1" placeholder="书籍评价" style="width:500px;height:120px"></div><div class="row"><div class="col-md-12"><h4> 推荐指数:    <span >&#9733;</span><span >&#9733;</span><span >&#9733;</span><span >&#9733;</span><span >&#9733;</span></h4></div> </div></div></div>')
         $("span").hover(function(){
             $(this).addClass('hs');
             $(this).prevAll().addClass('hs');
@@ -336,7 +336,84 @@ $("#"+gg).val(author);
                 </div>
             </div>
         </div>
+<div style="width:550px;height:260px">
+            <div vertical-align="middle" class="panel panel-primary">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>书名:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control"name="book4" id="book4" placeholder="书名"
+                                   onkeyup="searchWord(this)" style="width:120px;height:40px">
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <h4>作者:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="author4" id="aubook4" placeholder="作者"
+                                   style="width:120px;height:40px">
+                        </div>
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <input type="text" class="form-control" name="comment4" id="exampleInputPassword1" placeholder="书本简介"
+                           style="width:500px;height:120px">
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><h4> 推荐指数:
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span></h4></div>
+                </div>
+            </div>
+        </div>
+        <div style="width:550px;height:260px">
+            <div vertical-align="middle" class="panel panel-primary">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>书名:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control"name="book5" id="book5" placeholder="书名"
+                                   onkeyup="searchWord(this)" style="width:120px;height:40px">
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2">
+                        <h4>作者:</h4></div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="author5" id="aubook5" placeholder="作者"
+                                   style="width:120px;height:40px">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="comment5" id="exampleInputPassword1" placeholder="书本简介"
+                           style="width:500px;height:120px">
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><h4> 推荐指数:
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span>
+                        <span>&#9733;</span></h4></div>
+                </div>
+            </div>
+        </div>
         <div style="width:550px;height:260px">
             <div vertical-align="middle" class="panel panel-primary">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -381,7 +458,7 @@ $("#"+gg).val(author);
 
 </div>
 <div align="center">
-    <button type="button" class="btn btn-info" style="height:35px;width:80px" onclick="addlist(this,k)">点击添加</button>
+    <button type="button" class="btn btn-info" style="height:35px;width:80px" onclick="addlist(this)">点击添加</button>
     <p>
     <div class="row">
         <div class="col-md-8"></div>
